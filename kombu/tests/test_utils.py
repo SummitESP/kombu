@@ -82,24 +82,6 @@ class test_UUID(TestCase):
         self.assertIsInstance(i1, str)
         self.assertNotEqual(i1, i2)
 
-    @skip_if_module('__pypy__')
-    def test_uuid_without_ctypes(self):
-        old_utils = sys.modules.pop('kombu.utils')
-
-        @mask_modules('ctypes')
-        def with_ctypes_masked():
-            from kombu.utils import ctypes, uuid
-
-            self.assertIsNone(ctypes)
-            tid = uuid()
-            self.assertTrue(tid)
-            self.assertIsInstance(tid, basestring)
-
-        try:
-            with_ctypes_masked()
-        finally:
-            sys.modules['celery.utils'] = old_utils
-
 
 class test_Misc(TestCase):
 
